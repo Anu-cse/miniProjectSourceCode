@@ -103,7 +103,8 @@ void updateRecord(FILE *fPtr) {
         printf("%-6d%-16s%-11s%10.2f\n",
                client.acctNum, client.lastName, client.firstName, client.balance);
 
-        fseek(fPtr, -sizeof(struct clientData), SEEK_CUR);
+        // FIXED cast here
+        fseek(fPtr, -(long)sizeof(struct clientData), SEEK_CUR);
         fwrite(&client, sizeof(struct clientData), 1, fPtr);
     }
 }
