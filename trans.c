@@ -12,6 +12,7 @@ void addAccount(FILE *fPtr);
 void displayAll(FILE *fPtr);
 void searchAccount(FILE *fPtr);
 void updateAccount(FILE *fPtr);
+void deleteAccount(FILE *fPtr);
 void generateTextFile(FILE *fPtr);
 
 int main() {
@@ -33,8 +34,9 @@ int main() {
         printf("2. Display All Accounts\n");
         printf("3. Search Account\n");
         printf("4. Update Account\n");
-        printf("5. Generate accounts.txt\n");
-        printf("6. Exit\n");
+        printf("5. Delete Account\n");
+        printf("6. Generate accounts.txt\n");
+        printf("7. Exit\n");
         printf("Enter your choice: ");
         scanf("%d", &choice);
 
@@ -43,12 +45,13 @@ int main() {
             case 2: displayAll(cfPtr); break;
             case 3: searchAccount(cfPtr); break;
             case 4: updateAccount(cfPtr); break;
-            case 5: generateTextFile(cfPtr); break;
-            case 6: printf("Exiting...\n"); break;
+            case 5: deleteAccount(cfPtr); break;
+            case 6: generateTextFile(cfPtr); break;
+            case 7: printf("Exiting...\n"); break;
             default: printf("Invalid choice.\n");
         }
 
-    } while (choice != 6);
+    } while (choice != 7);
 
     fclose(cfPtr);
     return 0;
@@ -146,6 +149,19 @@ void updateAccount(FILE *fPtr) {
     fwrite(&client, sizeof(struct clientData), 1, fPtr);
 
     printf("Balance updated successfully.\n");
+}
+
+void deleteAccount(FILE *fPtr) {
+    struct clientData empty = {0};
+    unsigned int acc;
+
+    printf("Enter Account Number to delete: ");
+    scanf("%u", &acc);
+
+    fseek(fPtr, (acc - 1) * sizeof(struct clientData), SEEK_SET);
+    fwrite(&empty, sizeof(struct clientData), 1, fPtr);
+
+    printf("Account deleted successfully.\n");
 }
 
 void generateTextFile(FILE *fPtr) {
