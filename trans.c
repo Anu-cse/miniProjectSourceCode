@@ -204,20 +204,16 @@ void newRecord(FILE *fPtr)
         printf("Account #%d already contains information.\n", client.acctNum);
     } // end if
     else
-    { // create record
-        // user enters last name, first name and balance
+    { 
         printf("%s", "Enter lastname, firstname, balance\n? ");
         scanf("%14s%9s%lf", client.lastName, client.firstName, &client.balance);
-
         client.acctNum = accountNum;
-        // move file pointer to correct record in file
         fseek(fPtr, (client.acctNum - 1) * sizeof(struct clientData), SEEK_SET);
-        // insert record in file
         fwrite(&client, sizeof(struct clientData), 1, fPtr);
-    } // end else
-} // end function newRecord
+    } 
+} 
 
-// enable user to input menu choice
+
 unsigned int enterChoice(void)
 {
     unsigned int menuChoice; // variable to store user's choice
